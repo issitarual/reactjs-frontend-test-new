@@ -21,7 +21,10 @@ const ControlledTextField = ({
     otherProps.error;
 
   const zipCodeMask = (value) => {
-    return value.replace(/\D/g, "").replace(/^(\d{5})(\d{3})+?$/, "$1-$2")
+    if (!value) return "";
+    value = value.replace(/\D/g, "");
+    value = value.replace(/(\d{5})(\d)/, "$1-$2");
+    return value;
   };
 
   return (
