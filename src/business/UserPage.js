@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useForm } from "react-hook-form";
 import { actions } from "../reducers/user.actions";
-import { ControlledTextField } from "../components/inputs";
+import { ControlledTextField, ZipCodeTextField } from "../components/inputs";
 import { Button } from "@mui/material";
 
 const UserPage = () => {
@@ -36,7 +36,7 @@ const UserPage = () => {
 
       <form onSubmit={formProps.handleSubmit(handleSubmit)}>
         <ControlledTextField label="Nome" name={"nome"} formProps={formProps} />
-        <ControlledTextField label="CEP" name={"cep"} formProps={formProps} />
+        <ControlledTextField label="Cep" name={"cep"} formProps={formProps} />
         <ControlledTextField
           label="Cidade"
           name={"cidade"}

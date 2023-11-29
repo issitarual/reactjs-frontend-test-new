@@ -15,12 +15,13 @@ const HomePage = () => {
 
   return (
     <>
-      <h2>Usuários</h2>
+      <h2>usuários</h2>
       <table>
         <thead>
           <tr>
             <td>Nome</td>
             <td>Cidade/UF</td>
+            <td>Idade</td>
             <td>Ações</td>
           </tr>
         </thead>
@@ -33,6 +34,7 @@ const HomePage = () => {
                 <td>
                   {u.cidade}/{u.uf}
                 </td>
+                <td>{u.dataNascimento.toString()}</td>
                 <td>
                   <Edit
                     onClick={() =>
