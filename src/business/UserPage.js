@@ -2,8 +2,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useForm } from "react-hook-form";
 import { actions } from "../reducers/user.actions";
-import { ControlledTextField, ZipCodeTextField } from "../components/inputs";
-import { Button } from "@mui/material";
+import { ControlledTextField } from "../components/inputs";
+import Loading from "./Loading";
+import { Button, Typography, AppBar } from "@mui/material";
+import { FormContainer } from "../styles/components";
 
 const UserPage = () => {
   const dispatch = useDispatch();
@@ -26,15 +28,35 @@ const UserPage = () => {
     dispatch(actions.saveUser.request(values));
   };
 
+  const getCepData = async (cep) => {
+    if (cep.lenght !== 8) return;
+
+    console.log(cep);
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`, {
+        method: "GET",
+      });
+      const result = await response.json();
+      const { uf, localidade } = result.data;
+      return { uf, localidade };
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   if (loading) {
-    return <div>Carregando usuário</div>;
+    return <Loading message={"Carregando usuário"} />;
   }
 
   return (
     <>
-      <h2>Usuário #{id}</h2>
+      <AppBar position="static">
+        <Typography variant="h2" component="h2" align="center">
+          Usuário #{id}
+        </Typography>
+      </AppBar>
 
-      <form onSubmit={formProps.handleSubmit(handleSubmit)}>
+      <FormContainer onSubmit={formProps.handleSubmit(handleSubmit)}>
         <ControlledTextField label="Nome" name={"nome"} formProps={formProps} />
         <ControlledTextField label="Cep" name={"cep"} formProps={formProps} />
         <ControlledTextField
@@ -44,7 +66,7 @@ const UserPage = () => {
         />
         <ControlledTextField label="UF" name={"uf"} formProps={formProps} />
         <Button type={"submit"}>GRAVAR</Button>
-      </form>
+      </FormContainer>
     </>
   );
 };

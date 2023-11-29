@@ -2,6 +2,7 @@ import React from "react";
 import { Controller } from "react-hook-form";
 import { TextField } from "@mui/material";
 import { getValueFromObject } from "../../utils/basic";
+import { formatZipCode } from "./ZipCodeTextField";
 
 const ControlledTextField = ({
   formProps,
@@ -20,13 +21,6 @@ const ControlledTextField = ({
     (getValueFromObject(errors, name) !== undefined && !ignoreError) ||
     otherProps.error;
 
-  const zipCodeMask = (value) => {
-    if (!value) return "";
-    value = value.replace(/\D/g, "");
-    value = value.replace(/(\d{5})(\d)/, "$1-$2");
-    return value;
-  };
-
   return (
     <Controller
       name={name}
@@ -39,8 +33,9 @@ const ControlledTextField = ({
       }
       render={({ field: { onChange, onBlur, value } }) => (
         <TextField
+          margin={"normal"}
           {...otherProps}
-          value={name === "cep" ? zipCodeMask(value) : value}
+          value={name === "cep" ? formatZipCode(value) : value}
           error={isError}
           helperText={
             !isError

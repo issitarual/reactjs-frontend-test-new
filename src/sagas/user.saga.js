@@ -54,8 +54,28 @@ const saveUser = asyncFlow({
   },
 });
 
+const deleteUser = asyncFlow({
+  actionGenerator: actions.deleteUser,
+  transform: function* () {
+    const id = yield select((state) => state.user.id);
+    return { id };
+  },
+  api: (id) => {
+    return request({
+      url: `/usuario/${id}`,
+      method: "delete",
+      isMock: true,
+      mockResult: usersMock.find((u) => u.id === id) ?? null,
+    });
+  },
+  postSuccess: function* () {
+    yield put(routeActions.redirectTo(routes.HOME));
+  },
+});
+
 export const sagas = [
   userRouteWatcher(),
   loadUser.watcher(),
   saveUser.watcher(),
+  deleteUser.watcher(),
 ];

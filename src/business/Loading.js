@@ -1,12 +1,7 @@
-import { Typography, CircularProgress, styled } from "@mui/material";
+import { Typography, CircularProgress } from "@mui/material";
+import { LoadingContainer } from "../styles/components";
 
 const Loading = ({ message }) => {
-  const LoadingContainer = styled("div")({
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  });
   return (
     <LoadingContainer>
       <Typography variant="h5" gutterBottom>
