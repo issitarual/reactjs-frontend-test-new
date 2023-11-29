@@ -31,14 +31,12 @@ const UserPage = () => {
   const getCepData = async (cep) => {
     if (cep.lenght !== 8) return;
 
-    console.log(cep);
     try {
       const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`, {
         method: "GET",
       });
       const result = await response.json();
-      const { uf, localidade } = result.data;
-      return { uf, localidade };
+      return result.data;
     } catch (error) {
       console.error("Error:", error);
     }
