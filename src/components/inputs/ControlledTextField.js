@@ -15,6 +15,7 @@ const ControlledTextField = ({
     control,
     formState: { errors },
     rules,
+    initialValues,
   } = formProps;
 
   const isError =
@@ -31,6 +32,7 @@ const ControlledTextField = ({
           ? { a: () => true }
           : getValueFromObject(rules, validationKey ?? name)
       }
+      defaultValue={initialValues[name]}
       render={({ field: { onChange, onBlur, value } }) => (
         <TextField
           margin={"normal"}

@@ -10,6 +10,7 @@ import { FormContainer } from "../styles/components";
 const UserPage = () => {
   const dispatch = useDispatch();
   const { loading, data, id } = useSelector((state) => state.user);
+  console.log(data)
   const rules = {};
   const initialValues = {
     nome: "",
@@ -54,8 +55,8 @@ const UserPage = () => {
         </Typography>
       </AppBar>
 
-      <FormContainer onSubmit={formProps.handleSubmit(handleSubmit)}>
-        <ControlledTextField label="Nome" name={"nome"} formProps={formProps} />
+      <FormContainer onSubmit={formProps.handleSubmit(handleSubmit)} >
+        <ControlledTextField label="Nome" name={"nome"} formProps={formProps} value={data.nome}/>
         <ControlledTextField label="Cep" name={"cep"} formProps={formProps} />
         <ControlledTextField
           label="Cidade"
