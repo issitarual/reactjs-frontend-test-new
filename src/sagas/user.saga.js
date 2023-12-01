@@ -15,6 +15,8 @@ function* userRouteWatcher() {
   });
 }
 
+const ROUTE = "http://localhost:8080/";
+
 const loadUser = asyncFlow({
   actionGenerator: actions.loadUser,
   transform: function* () {
@@ -23,6 +25,13 @@ const loadUser = asyncFlow({
   },
   api: (values) => {
     return request({
+      /*
+      [Change this if using API]
+      url: `${ROUTE}/usuario/${values.id}`,
+      method: "get",
+      isMock: false,
+      params: queryParams
+      */
       url: `/usuario/${values.id}`,
       method: "get",
       isMock: true,
@@ -42,6 +51,14 @@ const saveUser = asyncFlow({
   },
   api: ({ id, ...values }) => {
     return request({
+      /*
+      [Change this if using API]
+      url: `${ROUTE}/usuario/${values.id}`,
+      method: "put",
+      isMock: false,
+      params: queryParams,
+      data: body
+      */
       url: `/usuario/${id}`,
       method: "put",
       body: values,
@@ -62,14 +79,21 @@ const deleteUser = asyncFlow({
   },
   api: (id) => {
     return request({
+      /*
+      [Change this if using API]
+      url: `${ROUTE}/usuario/${values.id}`,
+      method: "delete",
+      isMock: false,
+      params: queryParams
+      */
       url: `/usuario/${id}`,
       method: "delete",
       isMock: true,
-      mockResult: usersMock.find((u) => u.id === id) ?? null,
+      mockResult: usersMock.filter((u) => u.id !== id),
     });
   },
   postSuccess: function* () {
-    yield put(routeActions.redirectTo(routes.HOME));
+    console.log("deleted");
   },
 });
 

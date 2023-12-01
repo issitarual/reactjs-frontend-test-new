@@ -16,6 +16,12 @@ const loadUsers = asyncFlow({
   actionGenerator: actions.loadUsers,
   api: () => {
     return request({
+      /*
+      [Change this if using API]
+      url: "http://localhost:8080/usuarios",
+      method: "get",
+      isMock: false
+      */
       url: `/usuarios`,
       method: "get",
       isMock: true,

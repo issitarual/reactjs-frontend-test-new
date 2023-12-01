@@ -3,7 +3,7 @@ import {
   actions as routeActions,
   types as routes,
 } from "../reducers/routes.actions";
-import Loading from "./Loading";
+import Loading from "../components/Loading";
 
 import {
   Typography,
@@ -19,10 +19,12 @@ import {
 import { DeleteOutline, Edit } from "@mui/icons-material";
 import { TableCellHead } from "../styles/components";
 import { actions } from "../reducers/user.actions";
+import { useState } from "react";
 
 const HomePage = () => {
   const dispatch = useDispatch();
   const { loading, data } = useSelector((state) => state.home);
+  const [initialData, setInicialData] = useState([]);
 
   const calculate_age = (dob) => {
     var today = new Date();
@@ -43,6 +45,15 @@ const HomePage = () => {
 
   const handleDelete = ({ id }) => {
     dispatch(actions.deleteUser.request({ id }));
+    // Remove with API
+    let removeUser;
+    if (initialData.length) {
+      removeUser = initialData.filter((u) => u.id !== id);
+    } else {
+      removeUser = data.filter((u) => u.id !== id);
+    }
+
+    setInicialData(removeUser);
   };
 
   if (loading) {
@@ -68,27 +79,31 @@ const HomePage = () => {
           </TableHead>
 
           <TableBody>
-            {sortByBirthDate(data).map((u) => {
-              return (
-                <TableRow key={u.id}>
-                  <TableCell>{u.nome}</TableCell>
-                  <TableCell>
-                    {u.cidade}/{u.uf}
-                  </TableCell>
-                  <TableCell>{calculate_age(u.dataNascimento)}</TableCell>
-                  <TableCell>
-                    <Edit
-                      onClick={() =>
-                        dispatch(
-                          routeActions.redirectTo(routes.USER, { id: u.id })
-                        )
-                      }
-                    />
-                    <DeleteOutline onClick={() => handleDelete({ id: u.id })} />
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+            {sortByBirthDate(initialData.length ? initialData : data).map(
+              (u) => {
+                return (
+                  <TableRow key={u.id}>
+                    <TableCell>{u.nome}</TableCell>
+                    <TableCell>
+                      {u.cidade}/{u.uf}
+                    </TableCell>
+                    <TableCell>{calculate_age(u.dataNascimento)}</TableCell>
+                    <TableCell>
+                      <Edit
+                        onClick={() =>
+                          dispatch(
+                            routeActions.redirectTo(routes.USER, { id: u.id })
+                          )
+                        }
+                      />
+                      <DeleteOutline
+                        onClick={() => handleDelete({ id: u.id })}
+                      />
+                    </TableCell>
+                  </TableRow>
+                );
+              }
+            )}
           </TableBody>
         </Table>
       </TableContainer>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { actions } from "../reducers/user.actions";
 import { ControlledTextField } from "../components/inputs";
-import Loading from "./Loading";
+import Loading from "../components/Loading";
 import { Button, Typography, AppBar } from "@mui/material";
 import { FormContainer } from "../styles/components";
 
@@ -64,7 +64,7 @@ const UserPage = () => {
           formProps={formProps}
         />
         <ControlledTextField label="UF" name={"uf"} formProps={formProps} />
-        <Button type={"submit"}>GRAVAR</Button>
+        <Button type={"submit"} onClick={formProps.handleSubmit(handleSubmit)}>GRAVAR</Button>
       </FormContainer>
     </>
   );
